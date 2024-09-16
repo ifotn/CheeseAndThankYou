@@ -1,11 +1,17 @@
-﻿@{
+﻿@model IEnumerable<Product>
+
+@{
     ViewData["Title"] = "Shop our " + @ViewData["Category"] + " Cheeses";
 }
 
 <h1>All of these are really good...</h1>
 
 <ul>
-    <li>@ViewData["Category"] Cheese 1</li>
+    @* <li>@ViewData["Category"] Cheese 1</li>
     <li>@ViewData["Category"] Cheese 2</li>
-    <li>@ViewData["Category"] Cheese 3</li>
+    <li>@ViewData["Category"] Cheese 3</li> *@
+    @foreach (var product in Model)
+    {
+        <li>@product.Name</li>
+    }
 </ul>
