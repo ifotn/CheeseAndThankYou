@@ -1,12 +1,11 @@
 ﻿@model CheeseAndThankYou.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add a New Product";
 }
 
-<h1>Create</h1>
+<h1>Add a New Product</h1>
 
-<h4>Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StinkRating" class="control-label"></label>
-                <input asp-for="StinkRating" class="form-control" />
+                <input asp-for="StinkRating" class="form-control" min="1" max="5" />
                 <span asp-validation-for="StinkRating" class="text-danger"></span>
             </div>
             <div class="form-group">
