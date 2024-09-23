@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CheeseAndThankYou.Models;
 
 namespace CheeseAndThankYou.Data
 {
@@ -9,5 +10,6 @@ namespace CheeseAndThankYou.Data
             : base(options)
         {
         }
+        public DbSet<CheeseAndThankYou.Models.Product> Product { get; set; } = default!;
     }
 }
