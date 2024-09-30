@@ -17,7 +17,7 @@ namespace CheeseAndThankYou.Models
         [Range(0.01, 1000.00)]
         public decimal Price { get; set; }
 
-        public string? Image { get; set; }
+        public string? Photo { get; set; }
         
         public string Size { get; set; }
         
