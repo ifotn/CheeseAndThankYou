@@ -26,5 +26,9 @@ namespace CheeseAndThankYou.Models
 
         // Parent ref
         public Category? Category { get; set; } 
+
+        // child refs
+        public List<CartItem>? CartItems { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
     }
 }
