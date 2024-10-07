@@ -25,32 +25,15 @@ namespace CheeseAndThankYou.Controllers
         // GET: /Shop/ByCategory/5
         public IActionResult ByCategory(int id)
         {
-            switch (id)
+            // make sure we have a valid Category Id
+            if (id == 0)
             {
-                case 1:
-                    ViewData["Category"] = "English";
-                    break;
-                case 2:
-                    ViewData["Category"] = "Soft";
-                    break;
-                case 3:
-                    ViewData["Category"] = "Hard";
-                    break;
-                case 4:
-                    ViewData["Category"] = "Blue";
-                    break;
-                default:
-                    return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
-            // use Product model to make in-memory product list
-            var products = new List<Product>();
+            var products = _context.Products.Where(p => p.CategoryId == id).ToList();
 
-            for (int i = 1; i < 13; i++)
-            {
-                products.Add(new Product { ProductId = i, Name = ViewData["Category"] + " Cheese " + i });
-            }
-
+            // fetch list of products in selected category & pass to view
             return View(products);
         }
     }

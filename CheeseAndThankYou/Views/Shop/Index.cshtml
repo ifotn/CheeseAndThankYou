@@ -6,13 +6,15 @@
 
 <h1>First choose your style...</h1>
 
-<ul>
+<ul class="row card-group">
     @foreach (var c in Model)
     {
-        <li>
-            <a asp-action="ByCategory" asp-route-id="@c.CategoryId">
-                @c.Name
-            </a>       
+        <li class="col-lg-4 mb-3">
+            <div class="card">
+                <a asp-action="ByCategory" asp-route-id="@c.CategoryId">
+                    @c.Name
+                </a>     
+            </div>
         </li>
     }
 </ul>

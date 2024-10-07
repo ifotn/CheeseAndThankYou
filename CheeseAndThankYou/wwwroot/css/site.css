@@ -52,3 +52,12 @@ a {
         background-color: #FFF9C4;
         color: #212121;
     }
+
+    li {
+       list-style-type: none;
+    }
+
+    .card {
+        height: 100px;
+        text-align: center;
+    }
