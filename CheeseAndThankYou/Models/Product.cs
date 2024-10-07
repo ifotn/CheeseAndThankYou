@@ -15,6 +15,7 @@ namespace CheeseAndThankYou.Models
         public string Description { get; set; }
 
         [Range(0.01, 1000.00)]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Price { get; set; }
 
         public string? Photo { get; set; }
