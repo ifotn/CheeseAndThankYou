@@ -21,8 +21,9 @@ namespace CheeseAndThankYou.Models
         public string? Photo { get; set; }
         
         public string Size { get; set; }
-        
+
         // FK
+        [DisplayName("Category")]
         public int CategoryId { get; set; }
 
         // Parent ref

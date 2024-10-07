@@ -1,28 +1,18 @@
-﻿@{
+﻿@model IEnumerable<Category>
+
+@{
     ViewData["Title"] = "Shop our Cheeses";
 }
 
 <h1>First choose your style...</h1>
 
 <ul>
-    <li>
-        <a asp-action="ByCategory" asp-route-id="1">
-            English
-        </a>     
-    </li>
-    <li>
-        <a asp-action="ByCategory" asp-route-id="2">
-            Soft
-        </a>
-    </li>
-    <li>
-        <a asp-action="ByCategory" asp-route-id="3">
-            Hard
-        </a>
-    </li>
-    <li>
-        <a asp-action="ByCategory" asp-route-id="4">
-            Blue
-        </a>
-    </li>
+    @foreach (var c in Model)
+    {
+        <li>
+            <a asp-action="ByCategory" asp-route-id="@c.CategoryId">
+                @c.Name
+            </a>       
+        </li>
+    }
 </ul>
