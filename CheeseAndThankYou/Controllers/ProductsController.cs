@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CheeseAndThankYou.Data;
 using CheeseAndThankYou.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheeseAndThankYou.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +28,8 @@ namespace CheeseAndThankYou.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Products/Details/5 
+        [AllowAnonymous] // make this action public, overriding class level auth
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
