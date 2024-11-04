@@ -11,7 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CheeseAndThankYou.Controllers
 {
-    [Authorize]
+    // restrict to authenticated users only (level 1)
+    // [Authorize]
+    // restrict to Administrator role only (level 2)
+    [Authorize(Roles = "Administrator")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;

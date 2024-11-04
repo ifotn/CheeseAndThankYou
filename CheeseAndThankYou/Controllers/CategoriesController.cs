@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 namespace CheeseAndThankYou.Controllers
 {
     // restrict to authenticated users only (level 1)
-    [Authorize]
+    // [Authorize]
+    // restrict to Administrator role only (level 2)
+    [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
