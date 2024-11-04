@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CheeseAndThankYou.Data;
 using CheeseAndThankYou.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheeseAndThankYou.Controllers
 {
+    // restrict to authenticated users only (level 1)
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
