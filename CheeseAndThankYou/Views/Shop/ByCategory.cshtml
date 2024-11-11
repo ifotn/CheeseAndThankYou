@@ -18,8 +18,19 @@
         <article class="col-lg-4 mb-3">
             <div class="card mb-4 h-100">
                 <div class="card-body">
-                    <h4>@product.Name</h4>
-                    <p>@product.Description</p>
+                    <h4>
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductId">
+                            @product.Name
+                        </a>
+                    </h4>
+                    @if (product.Photo != null)
+                    {
+                        <img src="~/img/products/@product.Photo" alt="@product.Name" class="thumb" />
+                    }
+                    else
+                    {
+                        <img src="~/img/products/placeholder.gif" alt="@product.Name" class="thumb" />
+                    }
                     <p>@String.Format("{0:c}", product.Price)</p>
                     <p>@product.Size</p>
                     <a class="btn btn-primary">
