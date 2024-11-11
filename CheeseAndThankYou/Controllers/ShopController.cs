@@ -36,5 +36,20 @@ namespace CheeseAndThankYou.Controllers
             // fetch list of products in selected category & pass to view
             return View(products);
         }
+
+        // POST: /Shop/AddToCart
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddToCart(int Quantity, int ProductId)
+        {
+            // look up product price
+
+            // create a unique cart identifier / fetch current cart identifier
+
+            // create and save new cart item
+
+            // redirect to cart page
+            return RedirectToAction("Cart");
+        }
     }
 }

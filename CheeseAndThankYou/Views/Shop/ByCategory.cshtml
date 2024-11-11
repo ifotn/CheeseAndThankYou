@@ -33,9 +33,15 @@
                     }
                     <p>@String.Format("{0:c}", product.Price)</p>
                     <p>@product.Size</p>
-                    <a class="btn btn-primary">
-                        Add to Cart
-                    </a>
+                    <form method="post" action="/Shop/AddToCart">
+                        @Html.AntiForgeryToken()
+                        <input name="Quantity" type="number" min="1" placeholder="Quantity" class="inputSmall" required />
+                        <input name="ProductId" type="hidden" value="@product.ProductId"  />
+                        <button class="btn btn-primary">
+                            Add to Cart
+                        </button>
+                    </form>
+                        
                 </div>
             </div>
         </article>
