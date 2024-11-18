@@ -44,21 +44,39 @@ namespace CheeseAndThankYou.Controllers
         {
             // look up product price
             var product = _context.Products.Find(ProductId);
+
+            if (product == null)
+            {
+                return RedirectToAction("Error");
+            }
+
             var price = product.Price;
 
             // create a unique cart identifier / fetch current cart identifier
             var customerId = GetCustomerId();
 
-            // create and save new cart item
-            var cartItem = new CartItem
-            {
-                Quantity = Quantity,
-                ProductId = ProductId,
-                Price = price,
-                CustomerId = customerId
-            };
+            // does this product already exist in this customer's cart?
+            var cartItem = _context.CartItems.SingleOrDefault(c => c.CustomerId == customerId && c.ProductId == ProductId);
 
-            _context.CartItems.Add(cartItem);
+            if (cartItem != null)
+            {
+                // update quantity
+                cartItem.Quantity += Quantity;
+                _context.CartItems.Update(cartItem);
+            }
+            else
+            {
+                // create and save new cart item
+                cartItem = new CartItem
+                {
+                    Quantity = Quantity,
+                    ProductId = ProductId,
+                    Price = price,
+                    CustomerId = customerId
+                };
+                _context.CartItems.Add(cartItem);
+            }
+               
             _context.SaveChanges();
 
             // redirect to cart page
