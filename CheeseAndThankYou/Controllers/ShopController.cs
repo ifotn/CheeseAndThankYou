@@ -112,5 +112,46 @@ namespace CheeseAndThankYou.Controllers
             // return view
             return View(cartItems);
         }
+
+        // GET: //Shop/RemoveFromCart/5
+        public IActionResult RemoveFromCart(int id)
+        {
+            // find selected cart item
+            var cartItem = _context.CartItems.Find(id);
+
+            if (cartItem == null)
+            {
+                return RedirectToAction("Error");
+            }
+
+            // remove it
+            _context.CartItems.Remove(cartItem);
+            _context.SaveChanges();
+
+            // refresh cart
+            return RedirectToAction("Cart");
+        }
+
+        // POST: //Shop/UpdateQuantity
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateQuantity(int Quantity, int CartItemId)
+        {
+            // find selected cart item
+            var cartItem = _context.CartItems.Find(CartItemId);
+
+            if (cartItem == null)
+            {
+                return RedirectToAction("Error");
+            }
+
+            // update quantity
+            cartItem.Quantity = Quantity;
+            _context.CartItems.Update(cartItem);
+            _context.SaveChanges();
+
+            // refresh cart
+            return RedirectToAction("Cart");
+        }
     }
 }
