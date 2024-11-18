@@ -43,13 +43,38 @@ namespace CheeseAndThankYou.Controllers
         public IActionResult AddToCart(int Quantity, int ProductId)
         {
             // look up product price
+            var product = _context.Products.Find(ProductId);
+            var price = product.Price;
 
             // create a unique cart identifier / fetch current cart identifier
+            var customerId = GetCustomerId();
 
             // create and save new cart item
+            var cartItem = new CartItem
+            {
+                Quantity = Quantity,
+                ProductId = ProductId,
+                Price = price,
+                CustomerId = customerId
+            };
+
+            _context.CartItems.Add(cartItem);
+            _context.SaveChanges();
 
             // redirect to cart page
             return RedirectToAction("Cart");
+        }
+
+        private string GetCustomerId()
+        {
+            // check session var for a CustomerId
+            if (HttpContext.Session.GetString("CustomerId") == null)
+            {
+                // use GUID to create new CustomerId session var 
+                HttpContext.Session.SetString("CustomerId", Guid.NewGuid().ToString());
+            }
+           
+            return HttpContext.Session.GetString("CustomerId");
         }
     }
 }
