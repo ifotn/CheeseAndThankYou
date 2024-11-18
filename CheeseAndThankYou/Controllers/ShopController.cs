@@ -104,6 +104,11 @@ namespace CheeseAndThankYou.Controllers
                 .Include(c => c.Product)
                 .Where(c => c.CustomerId == GetCustomerId());
 
+            // calc total # of items in cart => store in session var for navbar badge
+            var itemCount = (from c in cartItems
+                             select c.Quantity).Sum();
+            HttpContext.Session.SetInt32("ItemCount", itemCount);
+
             // return view
             return View(cartItems);
         }

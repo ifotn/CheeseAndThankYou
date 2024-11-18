@@ -70,3 +70,7 @@ a {
     .inputSmall {
         width: 90px;
     }
+
+    .badge-secondary {
+        background-color: dimgray;
+    }

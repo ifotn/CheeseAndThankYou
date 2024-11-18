@@ -56,14 +56,14 @@
             }
         </tbody>
     </table>
-    <h4 class="offset-7">Cart Total: @String.Format("{0:c}", total)</h4>
-    <div class="offset-6">
-        <a asp-action="Index" class="btn btn-primary">
-            Continue Shopping
-        </a>
-        <a asp-action="Checkout" class="btn btn-primary">
-            Checkout
-        </a>
+    <div class="flex-fill float-end">
+        <div class="flex-column">
+            <h4>Total: @String.Format("{0:c}", total)</h4>
+            <div>
+                <a asp-action="Index" class="btn btn-primary">Continue Shopping</a>
+                <a asp-action="Checkout" class="btn btn-primary">Checkout</a>
+            </div>
+        </div>
     </div>
 }
 else
