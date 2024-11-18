@@ -27,7 +27,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Cart">
                                 Cart
-                                @if (Context.Session.GetInt32("ItemCount") != 0)
+                                @if (Context.Session.GetInt32("ItemCount") != 0 && Context.Session.GetInt32("ItemCount") != null)
                                 {
                                     <span class="badge badge-secondary">
                                         @Context.Session.GetInt32("ItemCount")

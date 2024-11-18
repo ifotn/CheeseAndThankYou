@@ -1,5 +1,6 @@
 ﻿using CheeseAndThankYou.Data;
 using CheeseAndThankYou.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -152,6 +153,13 @@ namespace CheeseAndThankYou.Controllers
 
             // refresh cart
             return RedirectToAction("Cart");
+        }
+
+        // GET: //Shop/Checkout
+        [Authorize]
+        public IActionResult Checkout()
+        {
+            return View();
         }
     }
 }
