@@ -1,6 +1,7 @@
 ﻿using CheeseAndThankYou.Data;
 using CheeseAndThankYou.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheeseAndThankYou.Controllers
 {
@@ -93,6 +94,18 @@ namespace CheeseAndThankYou.Controllers
             }
            
             return HttpContext.Session.GetString("CustomerId");
+        }
+
+        // GET: //Shop/Cart
+        public IActionResult Cart()
+        {
+            // get current user's cart items including parent ref to show product details
+            var cartItems = _context.CartItems
+                .Include(c => c.Product)
+                .Where(c => c.CustomerId == GetCustomerId());
+
+            // return view
+            return View(cartItems);
         }
     }
 }
