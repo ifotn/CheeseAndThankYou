@@ -161,5 +161,25 @@ namespace CheeseAndThankYou.Controllers
         {
             return View();
         }
+
+        // POST: //Shop/Checkout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone")] Order order)
+        {
+            // auto-fill other 3 order properties
+            order.OrderDate = DateTime.Now;
+            order.CustomerId = User.Identity.Name;
+
+            var cartItems = _context.CartItems.Where(c => c.CustomerId == GetCustomerId());
+            order.OrderTotal = (from c in cartItems
+                                select c.Quantity * c.Price).Sum();
+
+            // store the order in a session var
+            HttpContext.Session.SetObject("Order", order);
+
+            return RedirectToAction("Payment");
+        }
     }
 }
