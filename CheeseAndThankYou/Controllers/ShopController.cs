@@ -214,7 +214,7 @@ namespace CheeseAndThankYou.Controllers
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             Currency = "cad",
-                            UnitAmount = (long)order.OrderTotal * 100,
+                            UnitAmount = (long)(order.OrderTotal * 100),
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = "Cheese and Thank You Purchase"
