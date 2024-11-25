@@ -3,6 +3,8 @@ using CheeseAndThankYou.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.Checkout;
 
 namespace CheeseAndThankYou.Controllers
 {
@@ -11,10 +13,14 @@ namespace CheeseAndThankYou.Controllers
         // db connection for all methods in controller
         private readonly ApplicationDbContext _context;
 
+        // config dependency to read Stripe key from appsettings
+        private readonly IConfiguration _iconfiguration;
+
         // constructor w/db connection dependency
-        public ShopController(ApplicationDbContext context)
+        public ShopController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _iconfiguration = configuration;
         }
 
         public IActionResult Index()
@@ -180,6 +186,54 @@ namespace CheeseAndThankYou.Controllers
             HttpContext.Session.SetObject("Order", order);
 
             return RedirectToAction("Payment");
+        }
+
+        // GET: //Shop/Payment
+        [Authorize]
+        public IActionResult Payment()
+        {
+            // get the order from session var; we need the total to send to Stripe
+            var order = HttpContext.Session.GetObject<Order>("Order");
+
+            // read Stripe key from configuration
+            StripeConfiguration.ApiKey = _iconfiguration.GetValue<string>("StripeSecretKey");
+
+            // create Stripe checkout session
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string>
+                {
+                    "card"
+                },
+                LineItems = new List<SessionLineItemOptions>
+                {
+                    // equivalent to var x = new object();  x.prop1 = val1; x.prop2 = val2;
+                    new SessionLineItemOptions
+                    {
+                        Quantity = 1,
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            Currency = "cad",
+                            UnitAmount = (long)order.OrderTotal * 100,
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = "Cheese and Thank You Purchase"
+                            }
+                        }
+                    }
+                },
+                Mode = "payment",
+                // using Request.Host uses domain dynamically (localhost or live domain)
+                SuccessUrl = "https://" + Request.Host + "/Shop/SaveOrder",
+                CancelUrl = "https://" + Request.Host + "/Shop/Cart"
+            };
+
+            // execute the payment attempt w/Stripe
+            var service = new SessionService();
+            Session session = service.Create(options);
+
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
         }
     }
 }
