@@ -235,5 +235,40 @@ namespace CheeseAndThankYou.Controllers
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
         }
+
+        // GET: //Shop/SaveOrder
+        [Authorize]
+        public IActionResult SaveOrder()
+        {
+            // get order from session var
+            var order = HttpContext.Session.GetObject<Order>("Order");
+
+            // save new order
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            // move each cart item to new order detail record
+            var cartItems = _context.CartItems.Where(c => c.CustomerId == GetCustomerId());
+
+            foreach (var item in cartItems)
+            {
+                var orderDetail = new OrderDetail
+                {
+                    OrderId = order.OrderId, // FK
+                    Quantity = item.Quantity,
+                    ProductId = item.ProductId,
+                    Price = item.Price
+                };
+                _context.OrderDetails.Add(orderDetail);
+                _context.CartItems.Remove(item);
+            }
+            _context.SaveChanges();
+
+            // clear session vars
+            HttpContext.Session.Clear();
+
+            // redirect to order confirmation using new OrderId PK
+            return RedirectToAction("Details", "Orders", new { @id = order.OrderId });
+        }
     }
 }
