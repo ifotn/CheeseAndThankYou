@@ -1,6 +1,7 @@
 ﻿using CheeseAndThankYou.Controllers;
 using CheeseAndThankYou.Data;
 using CheeseAndThankYou.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,5 +38,29 @@ namespace CheeseAndThankYouTests
             controller = new CategoriesController(_context);
         }
 
+        [TestMethod]
+        public void IndexReturnsView()
+        {
+            // no arrange - done by TestInitialize() automatically
+
+            // act.  Have to add .Result property as Index() is async
+            var result = (ViewResult)controller.Index().Result;
+
+            // assert
+            Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void IndexReturnsCategories()
+        {
+            // no arrange - done by TestInitialize() automatically
+
+            // act.  Have to add .Result property as Index() is async
+            var result = (ViewResult)controller.Index().Result;
+            var dataModel = (List<Category>)result.Model;
+
+            // assert.  
+            CollectionAssert.AreEqual(_context.Categories.ToList(), dataModel);
+        }
     }
 }
