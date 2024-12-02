@@ -38,6 +38,7 @@ namespace CheeseAndThankYouTests
             controller = new CategoriesController(_context);
         }
 
+        #region "Index"
         [TestMethod]
         public void IndexReturnsView()
         {
@@ -62,5 +63,52 @@ namespace CheeseAndThankYouTests
             // assert.  
             CollectionAssert.AreEqual(_context.Categories.ToList(), dataModel);
         }
+        #endregion
+
+        #region "Details"
+        [TestMethod]
+        public void DetailsNoIdReturns404()
+        {
+            // act
+            var result = (ViewResult)controller.Details(null).Result;
+
+            // assert
+            Assert.AreEqual("404", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsInvalidIdReturns404()
+        {
+            // act
+            var result = (ViewResult)controller.Details(-1).Result;
+
+            // assert
+            Assert.AreEqual("404", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsValidIdReturnsView()
+        {
+            // act, passing one of the ids used in the mock db above
+            var result = (ViewResult)controller.Details(91).Result;
+
+            // assert
+            Assert.AreEqual("Details", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsValidIdReturnsCategory()
+        {
+            // arrange - set valid id from mock db
+            int id = 91;
+
+            // act, passing one of the ids used in the mock db above
+            var result = (ViewResult)controller.Details(id).Result;
+            var category = (Category)result.Model;
+
+            // assert
+            Assert.AreEqual(_context.Categories.Find(id), category);
+        }
+        #endregion
     }
 }

@@ -35,17 +35,19 @@ namespace CheeseAndThankYou.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                // show not found page instead of just sending 404 status code w/o html response
+                return View("404"); // NotFound();
             }
 
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
-                return NotFound();
+                // show not found page instead of just sending 404 status code w/o html response
+                return View("404"); // NotFound();
             }
 
-            return View(category);
+            return View("Details", category);
         }
 
         // GET: Categories/Create
