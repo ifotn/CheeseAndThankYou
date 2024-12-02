@@ -19,5 +19,18 @@ namespace CheeseAndThankYouTests
             // 3. assert - did we get expected result?
             Assert.AreEqual("Index", result.ViewName);
         }
+
+        [TestMethod]
+        public void PrivacyReturnsView()
+        {
+            // arrange
+            var controller = new HomeController();
+
+            // act
+            var result = (ViewResult)controller.Privacy();
+
+            // assert
+            Assert.AreEqual("Privacy", result.ViewName);
+        }
     }
 }
